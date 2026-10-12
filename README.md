@@ -92,8 +92,8 @@ from radsafe import load_scenario, run_simulation, build_report, format_text
 scenario = load_scenario("scenarios/cs137_bench_source.yaml")
 result = run_simulation(scenario, n_samples=50_000, seed=1)
 
-result.dose_usv["narrow_beam"]        # numpy array of per-sample doses, uSv
-report = build_report(result)         # plain dict (what --json writes)
+result.dose_usv["narrow_beam"]  # numpy array of per-sample doses, uSv
+report = build_report(result)  # plain dict (what --json writes)
 print(format_text(report))
 ```
 
