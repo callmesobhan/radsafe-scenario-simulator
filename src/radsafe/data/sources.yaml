@@ -1,0 +1,40 @@
+# Radionuclide reference data.
+#
+# ILLUSTRATIVE VALUES - verify against an authoritative source (ICRP 74/107,
+# NCRP, the Handbook of Health Physics and Radiological Health, or your
+# facility's own data) before using any result for a real assessment.
+#
+# gamma_constant_usv_m2_per_mbq_h
+#   Ambient dose equivalent H*(10) rate constant for a point source:
+#   dose rate [uSv/h] = constant * activity [MBq] / distance[m]^2.
+#   Published tabulations differ by a few percent (different decay-data
+#   evaluations, different conversion coefficients); gamma_rel_unc is a
+#   1-sigma relative uncertainty chosen to cover that spread.
+#
+# effective_energy_mev
+#   Single photon energy used to look up attenuation coefficients. This is
+#   exact enough for Cs-137 (662 keV) and a reasonable mean for Co-60
+#   (1.173 / 1.332 MeV). It is NOT adequate for broad spectra (Ir-192, X-ray
+#   tubes) - see docs/physics.md.
+
+sources:
+  Cs-137:
+    gamma_constant_usv_m2_per_mbq_h: 0.100
+    gamma_rel_unc: 0.05
+    effective_energy_mev: 0.662
+    notes: >
+      Includes the Ba-137m daughter. Tabulated values found in the range
+      0.098-0.103 uSv m2/(MBq h).
+    reference: >
+      Handbook of Health Physics and Radiological Health, 3rd ed.;
+      JEFF-3.1-based evaluation (as cited on the FLUKA forum).
+  Co-60:
+    gamma_constant_usv_m2_per_mbq_h: 0.365
+    gamma_rel_unc: 0.05
+    effective_energy_mev: 1.25
+    notes: >
+      Two gammas (1.173 and 1.332 MeV) emitted in cascade; 1.25 MeV is their
+      mean. Value is the middle of 0.36-0.37 uSv m2/(MBq h), derived from
+      rem/h-at-1-m-per-Ci constants and air-kerma rate constants with the
+      ICRP 74 H*(10)/Ka conversion.
+    reference: Derived; cross-check against ICRP 74 / your own data.

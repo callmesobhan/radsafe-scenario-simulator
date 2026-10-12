@@ -1,0 +1,29 @@
+# Photon mass attenuation coefficients (mu/rho, total with coherent scattering).
+#
+# Source: NIST X-Ray Mass Attenuation Coefficients (Hubbell & Seltzer),
+#   https://physics.nist.gov/PhysRefData/XrayMassCoef/
+# Elemental tables for lead (Z=82) and iron (Z=26); compound tables for
+# "Water, Liquid" and "Concrete, Ordinary". Values transcribed on 2026-10-12.
+#
+# Densities are nominal. Real concrete varies by roughly +/-10% (and more
+# for heavy or lightweight mixes) - override via the scenario if you know
+# your as-built density.
+#
+# Lookup uses log-log interpolation between these rows and refuses to
+# extrapolate. To support other energies or materials, add rows here.
+
+energies_mev: [0.5, 0.6, 0.8, 1.0, 1.25, 1.5, 2.0]
+
+materials:
+  lead:
+    density_g_cm3: 11.35
+    mu_over_rho_cm2_g: [1.614e-1, 1.248e-1, 8.870e-2, 7.102e-2, 5.876e-2, 5.222e-2, 4.606e-2]
+  iron:
+    density_g_cm3: 7.874
+    mu_over_rho_cm2_g: [8.414e-2, 7.704e-2, 6.699e-2, 5.995e-2, 5.350e-2, 4.883e-2, 4.265e-2]
+  concrete:
+    density_g_cm3: 2.30
+    mu_over_rho_cm2_g: [8.915e-2, 8.236e-2, 7.227e-2, 6.495e-2, 5.807e-2, 5.288e-2, 4.557e-2]
+  water:
+    density_g_cm3: 1.00
+    mu_over_rho_cm2_g: [9.687e-2, 8.956e-2, 7.865e-2, 7.072e-2, 6.323e-2, 5.754e-2, 4.942e-2]

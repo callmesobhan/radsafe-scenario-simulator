@@ -1,0 +1,36 @@
+# Illustrative scenario - not a design basis or a compliance assessment.
+#
+# A member of the public occupies a corridor behind a thick concrete wall of a
+# small Co-60 irradiator room. At ~13 mean free paths the shielding models
+# diverge by an order of magnitude, which is the point of this example.
+
+name: Co-60 irradiator - public corridor behind a concrete wall
+description: >
+  3.7 TBq (100 Ci) Co-60 source, public corridor about 5 m away behind
+  1 m of ordinary concrete, occupied a few hundred hours per year.
+
+source:
+  nuclide: Co-60
+  activity_mbq: 3.7e6
+
+geometry:
+  distance_m: { dist: normal, mean: 5.0, sd: 0.5, lower: 2.0 }
+
+exposure:
+  duration_h: { dist: triangular, low: 250, mode: 500, high: 1000 }
+
+shielding:
+  models: [narrow_beam, linear_buildup, practical_hvl]
+  layers:
+    - material: concrete
+      thickness_cm: { dist: normal, mean: 100, sd: 3 }
+      mu_rel_unc: 0.05          # also stands in for density/composition variation
+      hvl_cm: 6.2               # illustrative practical (broad-beam) HVL for Co-60 in concrete; verify
+
+limits:
+  - { name: ICRP 103 public limit, msv: 1.0 }
+  - { name: Design constraint (illustrative), msv: 0.1 }
+
+simulation:
+  n_samples: 100000
+  seed: 2026

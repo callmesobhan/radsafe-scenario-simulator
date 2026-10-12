@@ -1,0 +1,37 @@
+# Illustrative scenario - not a design basis or a compliance assessment.
+#
+# A technician works at a bench 2 m from a 3.7 GBq Cs-137 calibration source
+# stored behind a lead shield. How much dose accumulates over a year, and how
+# much does the answer depend on the shielding assumption?
+
+name: Cs-137 bench source behind lead - annual dose to adjacent worker
+description: >
+  3.7 GBq Cs-137 source in a lead pig; worker at roughly 2 m for about
+  150 h/year. Compares narrow-beam, linear-buildup and practical-HVL
+  shielding assumptions.
+
+source:
+  nuclide: Cs-137
+  activity_mbq: { dist: lognormal, median: 3700, gsd: 1.05 }   # certificate +/- ~5%
+
+geometry:
+  distance_m: { dist: normal, mean: 2.0, sd: 0.25, lower: 0.5 } # where people actually stand
+
+exposure:
+  duration_h: { dist: triangular, low: 100, mode: 150, high: 200 }
+
+shielding:
+  models: [narrow_beam, linear_buildup, practical_hvl]
+  layers:
+    - material: lead
+      thickness_cm: { dist: normal, mean: 3.0, sd: 0.1 }
+      mu_rel_unc: 0.05
+      hvl_cm: 0.65     # illustrative practical (broad-beam) HVL for Cs-137 in lead; verify
+
+limits:
+  - { name: Facility constraint (illustrative), msv: 0.3 }
+  - { name: ICRP 103 public limit, msv: 1.0 }
+
+simulation:
+  n_samples: 100000
+  seed: 12345
