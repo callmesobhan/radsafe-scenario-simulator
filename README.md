@@ -1,15 +1,35 @@
-# RadSafe Scenario Simulator
+<div align="center">
 
-Radiation-protection exposure scenario modelling in Python: simulate a controlled
-gamma source, compare simplified shielding assumptions side by side, and propagate
-uncertainty in distance, exposure time, activity and attenuation to a **distribution**
-of dose, not a single number.
+# RadSafe Scenario Simulator 🛡️☢️
 
+**Radiation-Protection Exposure Scenario & Shielding Uncertainty Simulator**  
+*Compare simplified gamma shielding models side-by-side and propagate uncertainty in distance, time, activity, and attenuation via Monte Carlo*
+
+[![CI](https://github.com/callmesobhan/radsafe-scenario-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/callmesobhan/radsafe-scenario-simulator/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![Physics](https://img.shields.io/badge/Models-Inverse--Square%20%7C%20Buildup%20%7C%20HVL%20%7C%20Monte%20Carlo-10b981)](#what-it-answers)
+
+</div>
+
+> [!WARNING]
 > **Educational and research tool.** It uses deliberately simplified models and
 > illustrative reference data. It is **not** a shielding design tool and must not be
 > used for regulatory compliance, dose assignment, or safety decisions. Those need
 > a qualified radiation protection expert and validated codes. See
 > [Limitations](#limitations).
+
+## Simulation Architecture
+
+```mermaid
+flowchart LR
+    A["📄 YAML Scenario (Source, Distance, Time, Shielding)"] --> B["Monte Carlo Parameter Sampler"]
+    B --> C1["Unshielded Inverse-Square"]
+    B --> C2["Narrow-Beam Exponential"]
+    B --> C3["Linear Buildup Factor"]
+    B --> C4["Practical HVL / TVL"]
+    C1 & C2 & C3 & C4 --> D["Dose Distributions + Exceedance Probability + Spearman Sensitivity"]
+```
 
 ## What it answers
 
