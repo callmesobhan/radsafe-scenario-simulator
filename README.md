@@ -6,7 +6,7 @@
 *Compare simplified gamma shielding models side-by-side and propagate uncertainty in distance, time, activity, and attenuation via Monte Carlo*
 
 [![CI](https://github.com/callmesobhan/radsafe-scenario-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/callmesobhan/radsafe-scenario-simulator/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](LICENSE)
+[![License: Non-Commercial (Research & Personal)](https://img.shields.io/badge/License-Non--Commercial%20(Research%20%26%20Personal)-f59e0b.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![Physics](https://img.shields.io/badge/Models-Inverse--Square%20%7C%20Buildup%20%7C%20HVL%20%7C%20Monte%20Carlo-10b981)](#what-it-answers)
 
@@ -206,4 +206,4 @@ CI runs lint and tests on Python 3.10–3.13.
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+**Non-Commercial Personal & Academic Research License (NC-PARL 1.0)** — see [LICENSE](LICENSE). Free for personal use and non-commercial academic/scientific research with citation (`Sobhan Shahbazi (2026). radsafe-scenario-simulator. https://github.com/callmesobhan/radsafe-scenario-simulator`). Commercial use requires a written license.
