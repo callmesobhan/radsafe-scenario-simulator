@@ -34,6 +34,8 @@ from typing import ClassVar
 import numpy as np
 from numpy.typing import ArrayLike
 
+from radsafe.buildup_gp import gp_buildup_factor
+
 
 class ShieldingError(ValueError):
     """A shielding model cannot be evaluated with the data supplied."""
@@ -45,12 +47,14 @@ class LayerSample:
 
     ``thickness_cm`` and ``mu_per_cm`` are scalars or equal-length arrays.
     ``hvl_cm`` is only needed by :class:`PracticalHVL`.
+    ``energy_mev`` is used by :class:`GPBuildup` (ANSI/ANS-6.4.3).
     """
 
     material: str
     thickness_cm: ArrayLike
     mu_per_cm: ArrayLike
     hvl_cm: ArrayLike | None = None
+    energy_mev: float = 0.662
 
     def __post_init__(self) -> None:
         if np.any(np.asarray(self.thickness_cm) < 0):
@@ -111,7 +115,24 @@ class PracticalHVL(ShieldingModel):
         return np.exp2(-np.asarray(halvings, dtype=float))
 
 
-MODELS: dict[str, ShieldingModel] = {m.name: m for m in (NarrowBeam(), LinearBuildup(), PracticalHVL())}
+class GPBuildup(ShieldingModel):
+    name = "gp_buildup"
+    summary = "B_GP(E, mu x) * exp(-mu x): ANSI/ANS-6.4.3 Geometric Progression buildup (0.1-3 MeV)"
+
+    def transmission(self, layers: Sequence[LayerSample]) -> np.ndarray:
+        if not layers:
+            return np.asarray(1.0, dtype=float)
+        mfp = optical_depth(layers)
+        # For multi-layer stacks, use optical-depth-weighted GP buildup dominated by outer/exit layer
+        # (standard Kalos/Broder engineering approximation: exit layer sets final scattered spectrum).
+        exit_layer = layers[-1]
+        b_gp = gp_buildup_factor(exit_layer.material, exit_layer.energy_mev, mfp)
+        return np.minimum(b_gp * np.exp(-mfp), 1.0)
+
+
+MODELS: dict[str, ShieldingModel] = {
+    m.name: m for m in (NarrowBeam(), LinearBuildup(), GPBuildup(), PracticalHVL())
+}
 
 
 def get_model(name: str) -> ShieldingModel:

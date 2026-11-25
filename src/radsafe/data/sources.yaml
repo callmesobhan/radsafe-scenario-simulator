@@ -1,23 +1,45 @@
 # Radionuclide reference data.
 #
 # ILLUSTRATIVE VALUES - verify against an authoritative source (ICRP 74/107,
-# NCRP, the Handbook of Health Physics and Radiological Health, or your
-# facility's own data) before using any result for a real assessment.
-#
-# gamma_constant_usv_m2_per_mbq_h
-#   Ambient dose equivalent H*(10) rate constant for a point source:
-#   dose rate [uSv/h] = constant * activity [MBq] / distance[m]^2.
-#   Published tabulations differ by a few percent (different decay-data
-#   evaluations, different conversion coefficients); gamma_rel_unc is a
-#   1-sigma relative uncertainty chosen to cover that spread.
-#
-# effective_energy_mev
-#   Single photon energy used to look up attenuation coefficients. This is
-#   exact enough for Cs-137 (662 keV) and a reasonable mean for Co-60
-#   (1.173 / 1.332 MeV). It is NOT adequate for broad spectra (Ir-192, X-ray
-#   tubes) - see docs/physics.md.
+# NCRP 151/155, AAPM TG-108, or your facility's own data) before using any
+# result for regulatory shielding design.
 
 sources:
+  Tc-99m:
+    gamma_constant_usv_m2_per_mbq_h: 0.022
+    gamma_rel_unc: 0.06
+    effective_energy_mev: 0.140
+    notes: >
+      Single principal 140.5 keV gamma used in nuclear medicine SPECT.
+    reference: >
+      AAPM / Smith & Stabin (2012); verify against ICRP 107.
+  I-131:
+    gamma_constant_usv_m2_per_mbq_h: 0.066
+    gamma_rel_unc: 0.06
+    effective_energy_mev: 0.364
+    notes: >
+      Dominant 364 keV emission (minor 637/723 keV lines make thick lead barriers
+      slightly harder than single-energy 364 keV; treat as illustrative).
+    reference: >
+      NCRP Report No. 155 / Smith & Stabin (2012).
+  Ir-192:
+    gamma_constant_usv_m2_per_mbq_h: 0.130
+    gamma_rel_unc: 0.05
+    effective_energy_mev: 0.380
+    notes: >
+      HDR brachytherapy source; mean photon energy ~0.38 MeV (broad spectrum
+      0.30-0.61 MeV; verify thick barriers against NCRP 151 / Monte Carlo).
+    reference: >
+      NCRP Report No. 151 / AAPM TG-43 air-kerma rate constant.
+  F-18:
+    gamma_constant_usv_m2_per_mbq_h: 0.143
+    gamma_rel_unc: 0.05
+    effective_energy_mev: 0.511
+    notes: >
+      Positron annihilation 511 keV photons for PET/CT shielding (AAPM TG-108).
+      Includes typical patient self-attenuation option in facility presets.
+    reference: >
+      AAPM Task Group 108 (Madsen et al., Med. Phys. 33, 2006).
   Cs-137:
     gamma_constant_usv_m2_per_mbq_h: 0.100
     gamma_rel_unc: 0.05

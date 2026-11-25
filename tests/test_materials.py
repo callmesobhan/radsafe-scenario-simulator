@@ -33,7 +33,9 @@ def test_denser_materials_attenuate_more_per_cm():
 
 def test_refuses_to_extrapolate():
     with pytest.raises(DataError, match="no attenuation data"):
-        get_material("lead").mass_attenuation(0.1)
+        get_material("lead").mass_attenuation(0.05)
+    with pytest.raises(DataError, match="no attenuation data"):
+        get_material("lead").mass_attenuation(5.0)
 
 
 def test_unknown_names_list_alternatives():

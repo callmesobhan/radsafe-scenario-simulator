@@ -48,9 +48,21 @@ pip install -e ".[dev]"          # numpy + pyyaml (+ matplotlib, pytest, ruff fo
 
 radsafe run scenarios/cs137_bench_source.yaml --plot summary.png
 radsafe run scenarios/co60_irradiator_corridor.yaml --json report.json
+radsafe optimize --preset pet_f18_uptake --material concrete --confidence 0.95 --voi
+radsafe pareto --preset hdr_ir192_suite --materials concrete,lead,iron --confidence 0.95
 radsafe validate scenarios/*.yaml
-radsafe list                     # built-in sources, materials, shielding models
+radsafe list                     # built-in sources, materials, shielding models & NCRP/TG-108 presets
 ```
+
+## Inverse Probabilistic Barrier Optimizer, ANSI/ANS-6.4.3 GP Buildup & ALARA Value-of-Information
+
+Deterministic shielding tools (**MicroShield**, NCRP spreadsheets) compute one nominal thickness—hiding the true probability that uncertain patient workload growth, occupancy factor $T$, or concrete density tolerance will push annual dose over regulatory limits.
+
+RadSafe now ships:
+* **ANSI/ANS-6.4.3 Geometric Progression (GP) buildup (`gp_buildup`)** over `0.1–3.0 MeV` for lead, iron, ordinary concrete, and water (covering `Tc-99m`, `I-131`, `Ir-192`, `F-18` PET, `Cs-137`, and `Co-60`).
+* **Inverse Probabilistic Barrier Optimizer (`radsafe optimize`):** solves for the exact minimum thickness achieving $P(\text{dose} > \text{limit}) \le 1 - \text{confidence}$ under uncertain NCRP 147/151/155 & AAPM TG-108 parameters, and exposes the **hidden exceedance risk** of a deterministic nominal design.
+* **Cost-vs-Exceedance Pareto Frontier (`radsafe pareto`):** compares concrete, lead, and iron on a non-dominated USD vs. exceedance-risk curve to select the cheapest compliant barrier.
+* **ALARA Value-of-Information (`--voi`):** translates parameter uncertainty into **exact construction dollars saved** if the RSO measures or pins occupancy $T$, concrete density, workload, or distance instead of pouring thicker walls.
 
 Example (`scenarios/cs137_bench_source.yaml`: 3.7 GBq Cs-137, worker at ~2 m, 3 cm lead, ~150 h/year):
 

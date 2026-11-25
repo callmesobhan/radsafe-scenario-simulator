@@ -71,6 +71,7 @@ def _evaluate(
                 thickness_cm=values[layer_key(i, layer.material, "thickness_cm")],
                 mu_per_cm=values[layer_key(i, layer.material, "mu_per_cm")],
                 hvl_cm=values.get(layer_key(i, layer.material, "hvl_cm")),
+                energy_mev=scenario.source.effective_energy_mev,
             )
             for i, layer in enumerate(scenario.layers)
         ]
